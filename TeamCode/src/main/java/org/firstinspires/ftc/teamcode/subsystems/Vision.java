@@ -27,7 +27,12 @@ public class Vision {
             dectList = new ArrayList<AprilTagDetection>(aprilTag.getDetections());
             dectList.removeIf(detection -> !(detection instanceof AprilTagSingleDetection) || ((AprilTagSingleDetection) detection).metadata == null);
         }
-        return dectList;
+
+        ArrayList<AprilTagSingleDetection> newdectList = new ArrayList<>();
+        for( AprilTagDetection detection : dectList){
+            newdectList.add((AprilTagSingleDetection) detection);
+        }
+        return newdectList;
     }
 
     public double calculateAimToAprilTag(AprilTagDetection apriltag, Pose2D pose){
