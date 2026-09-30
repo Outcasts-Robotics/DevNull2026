@@ -8,4 +8,6 @@ public class Constants {
         // return new Follower(Drivetrain, Localizer, Foresight);
         return null;
     }
+
+    public static int TURRET_TICKS_PER_REV = 145;
 }
