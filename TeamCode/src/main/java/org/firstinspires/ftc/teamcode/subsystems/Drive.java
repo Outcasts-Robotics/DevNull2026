@@ -15,7 +15,7 @@ public class Drive {
      DcMotor backRight;
     private final DoubleSupplier yawInRadProvider;
 
-    Drive(HardwareMap hardwareMap, DoubleSupplier yawInRadProvider){
+    public Drive(HardwareMap hardwareMap, DoubleSupplier yawInRadProvider){
         this.frontLeft = hardwareMap.get(DcMotor.class, "frontLeft");
         this.frontRight = hardwareMap.get(DcMotor.class, "frontRight");
         this.backLeft = hardwareMap.get(DcMotor.class, "backLeft");
