@@ -17,11 +17,14 @@ public class Vision {
     AprilTagProcessor aprilTag;
     VisionPortal visionPortal;
     public Vision(HardwareMap hardwareMap){
-        aprilTag = new AprilTagProcessor.Builder().setLensIntrinsics(898.706, 898.706, 646.798, 349.201).build();
+        aprilTag = new AprilTagProcessor.Builder().setLensIntrinsics(898.706, 898.706, 646.798, 349.201)
+                .setDrawAxes(true).setDrawTagOutline(true).build();
         visionPortal = new VisionPortal.Builder()
                 .setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"))
                 .setCameraResolution(new Size(1280, 720)).setStreamFormat(VisionPortal.StreamFormat.MJPEG).addProcessor(aprilTag).setAutoStartStreamOnBuild(true)
+                .enableLiveView(true)
                 .build();
+        visionPortal.resumeStreaming();
     }
 
 
@@ -49,5 +52,11 @@ public class Vision {
         double x = target.getX(DistanceUnit.INCH) - start.getX(DistanceUnit.INCH);
         double y = target.getY(DistanceUnit.INCH) - start.getY(DistanceUnit.INCH);
         return Math.atan2(y, x);
+    }
+
+    public void close() {
+        if (visionPortal != null) {
+            visionPortal.close();
+        }
     }
 }

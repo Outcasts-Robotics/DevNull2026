@@ -15,11 +15,16 @@ public class TeleOp extends OpMode {
     public void init() {
          drivetrain = new Drive(hardwareMap, ()-> 0);
          vision = new Vision(hardwareMap);
+
     }
     public void loop() {
 
         drivetrain.control(gamepad1.left_stick_y , -gamepad1.left_stick_x , gamepad1.right_stick_x, false);
         telemetry.addData("aprilTags", vision.getDetections(0));
         telemetry.update();
+    }
+
+    public void stop() {
+        vision.close();
     }
 }
