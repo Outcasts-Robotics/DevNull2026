@@ -12,6 +12,6 @@ public class Constants {
     public static int TURRET_TICKS_PER_REV = 145;
 
     //
-    // Focals (pixels) - Fx: 898.706 Fy: 898.706
-    //Optical center - Cx: 646.798 Cy: 349.201
+    // Focals (pixels) - Fx: 906.25 Fy: 906.25
+    // Optical center - Cx: 636.238 Cy: 339.804
 }

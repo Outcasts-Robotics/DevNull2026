@@ -6,7 +6,6 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.teamcode.Trackables;
 import org.firstinspires.ftc.teamcode.pedro.Constants;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
-import org.firstinspires.ftc.vision.apriltag.AprilTagSingleDetection;
 
 import java.util.ArrayList;
 
@@ -32,26 +31,10 @@ public class Shooter {
         turretMotor.setTargetPosition((int) (angle / Constants.TURRET_TICKS_PER_REV));
      }
     public void trackTag(Vision vision, double yawSpeed) {
-        ArrayList<AprilTagSingleDetection> detections = vision.getDetections(yawSpeed);
+        ArrayList<AprilTagDetection> detections = vision.getDetections(yawSpeed);
         if(!detections.isEmpty()){
-            for (AprilTagSingleDetection detection : detections){
-                switch(trackables.side){
-                    case RED:
-                        if(detection.metadata.id >= 30 && detection.metadata.id <= 37){
-                            setTurretAngle(detection.ftcPose.yaw);
-                            return;
-                        }
-                        break;
-                    case BLUE:
-                        if(detection.metadata.id >= 38 && detection.metadata.id <= 45) {
-                            setTurretAngle(detection.ftcPose.yaw);
-                            return;
-                        }
-                        break;
-
-                }
-            }
-
+            AprilTagDetection detection = detections.get(0);
+            setTurretAngle(detection.ftcPose.yaw);
         }
     }
 }
