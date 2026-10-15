@@ -4,31 +4,34 @@ import com.pedropathing.follower.Follower;
 import com.pedropathing.revhub.drivetrains.MecanumConfig;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.pedropathing.localization.localizers.PinpointLocalizer;
-import org.firstinspires.ftc.teamcode.GoBildaPinpointDriver;
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-import com.pedropathing.localization.localizers.PinpointLocalizer;
+import com.pedropathing.revhub.localizers.PinpointLocalizer;
+import com.pedropathing.revhub.localizers.PinpointConfig;
+import com.qualcomm.hardware.gobilda.GoBildaPinpointDriver;
+import com.pedropathing.algorithm.Foresight;
+import com.pedropathing.algorithm.ForesightConfig;
+import com.pedropathing.revhub.drivetrains.Mecanum;
 
 public class Constants {
-    public static Follower create(HardwareMap h) {
-        // return new Follower(Drivetrain, Localizer, Foresight);
 
-        GoBildaPinpointDriver pinpoint = h.get(GoBildaPinpointDriver.class, "pinpoint");
-        pinpoint.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_SWINGARM_POD); // idk which one we're using, change based on which one is in use
-        pinpoint.setEncoderDirection(
-                GoBildaPinpointDriver.EncoderDirection.FORWARD, // this is x direction
-                GoBildaPinpointDriver.EncoderDirection.REVERSED // this is y direction
-        );
+    public static PinpointConfig localizerConfig = new PinpointConfig(
+            c -> {
+                c.name.set("pinpoint");
+                c.xPodOffset.set(1.9685); // 50mm in inches
+                c.yPodOffset.set(-1.1811); // -30mm in inches
+                c.xPodDirection.set(GoBildaPinpointDriver.EncoderDirection.FORWARD);
+                c.yPodDirection.set(GoBildaPinpointDriver.EncoderDirection.REVERSED);
+                c.podType.set(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_SWINGARM_POD); // change to goBILDA_4_BAR_POD if needed
+            }
+    );
 
-        pinpoint.setOffsets(50.0, -30.0, DistanceUnit.MM); // will change these to be less sucky with our robot design
-        pinpoint.resetPosAndIMU();
+    public static ForesightConfig foresightConfig = new ForesightConfig(
+            c -> {
+                c.headingDriveRatio.set(0.5);
+                c.brakeAtEnd.set(true);
+            }
+    );
 
-        PinpointLocalizer localizer = new PinpointLocalizer(pinpoint);
-
-        return new Follower(h, driveConfig, localizer);
-    }
-
-    public static MecanumConfig driveConfig = new MecanumConfig(
+    public static MecanumConfig drivetrainConfig = new MecanumConfig(
             c -> {
                 c.frontLeftName.set("left_front");
                 c.backLeftName.set("left_back");
@@ -40,4 +43,11 @@ public class Constants {
                 c.backRightDirection.set(DcMotorSimple.Direction.FORWARD);
             }
     );
+    public static Follower create(HardwareMap h) {
+        PinpointLocalizer localizer = new PinpointLocalizer(h, localizerConfig);
+        Mecanum drivetrain = new Mecanum(h, drivetrainConfig);
+        Foresight foresight = new Foresight(foresightConfig);
+
+        return new Follower(localizer, drivetrain, foresight);
+    }
 }
