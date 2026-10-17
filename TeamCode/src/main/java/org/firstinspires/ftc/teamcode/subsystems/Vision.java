@@ -135,7 +135,9 @@ public class Vision {
         return dectList;
     }
 
-    public double calculateAimToAprilTag(AprilTagDetection apriltag, Pose2D pose) {
+    public double
+
+    calculateAimToAprilTag(AprilTagDetection apriltag, Pose2D pose) {
         double x = apriltag.ftcPose.x - pose.getX(DistanceUnit.INCH);
         double y = apriltag.ftcPose.y - pose.getY(DistanceUnit.INCH);
         return Math.atan2(y, x);

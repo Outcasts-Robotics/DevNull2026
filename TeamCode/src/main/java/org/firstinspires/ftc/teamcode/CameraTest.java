@@ -37,8 +37,18 @@ public class CameraTest extends OpMode {
     @Override
     public void loop() {
         trackLoopLatency();
+        try {
+            AprilTagDetection tag = vision.getDetections(0).get(0);
+            panelsTelemetry.addData("aprilTags", tag);
+            telemetry.addData("Pose", tag.rawPose.x + ", " + tag.rawPose.y + ", " + tag.rawPose.z);
+            telemetry.addData("Pose", tag.rawPose.x + ", " + tag.rawPose.y + ", " + tag.rawPose.z);
 
-        panelsTelemetry.addData("aprilTags", vision.getDetections(0));
+        } catch (Exception e){
+            ;
+        }
+
+
+        panelsTelemetry.update();
         telemetry.update();
     }
 
