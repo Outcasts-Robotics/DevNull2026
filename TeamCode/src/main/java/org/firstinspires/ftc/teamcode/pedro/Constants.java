@@ -52,4 +52,10 @@ public class Constants {
 
         return new Follower(localizer, drivetrain, foresight);
     }
+
+    public static int TURRET_TICKS_PER_REV = 145;
+
+    //
+    // Focals (pixels) - Fx: 906.25 Fy: 906.25
+    // Optical center - Cx: 636.238 Cy: 339.804
 }
