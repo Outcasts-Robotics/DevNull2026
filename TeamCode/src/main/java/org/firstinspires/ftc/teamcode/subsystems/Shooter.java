@@ -17,8 +17,8 @@ public class Shooter {
     Trackables trackables;
 
     public Shooter(HardwareMap hardwareMap, Trackables trackables) {
-        shooterMotor = hardwareMap.get(DcMotor.class, "shooter");
-        turretMotor = hardwareMap.get(DcMotor.class, "turret");
+        shooterMotor = hardwareMap.get(DcMotor.class, Constants.shooterName);
+        turretMotor = hardwareMap.get(DcMotor.class, Constants.turretName);
 
         turretMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 

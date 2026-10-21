@@ -58,4 +58,7 @@ public class Constants {
     //
     // Focals (pixels) - Fx: 906.25 Fy: 906.25
     // Optical center - Cx: 636.238 Cy: 339.804
+
+    public static final String  shooterName = "shooter";
+    public static final String  turretName = "turret";
 }
