@@ -9,5 +9,16 @@ public class Trackables {
         RED,
         BLUE
     }
+
+    public enum ShooterState{
+        DEFAULT,
+        REV_UP,
+        SHOOT
+    }
+    public ShooterState state = ShooterState.DEFAULT;
+
+    public Trackables(Side startingSide){
+        this.side = startingSide;
+    }
 }
 

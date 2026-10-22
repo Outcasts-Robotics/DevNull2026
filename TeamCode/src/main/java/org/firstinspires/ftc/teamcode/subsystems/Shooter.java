@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.Trackables;
@@ -11,14 +12,14 @@ import java.util.ArrayList;
 
 public class Shooter {
     // TODO: Implement Shooter
-    private final DcMotor shooterMotor;
-    private final DcMotor turretMotor;
+    private final DcMotorEx shooterMotor;
+    private final DcMotorEx turretMotor;
 
     Trackables trackables;
 
     public Shooter(HardwareMap hardwareMap, Trackables trackables) {
-        shooterMotor = hardwareMap.get(DcMotor.class, Constants.shooterName);
-        turretMotor = hardwareMap.get(DcMotor.class, Constants.turretName);
+        shooterMotor = hardwareMap.get(DcMotorEx.class, Constants.shooterName);
+        turretMotor = hardwareMap.get(DcMotorEx.class, Constants.turretName);
 
         turretMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
@@ -30,6 +31,10 @@ public class Shooter {
      public void setTurretAngle(double angle){
         turretMotor.setTargetPosition((int) (angle / Constants.TURRET_TICKS_PER_REV));
      }
+
+
+
+
     public void trackTag(Vision vision, double yawSpeed) {
         ArrayList<AprilTagDetection> detections = vision.getDetections(yawSpeed);
         if(!detections.isEmpty()){

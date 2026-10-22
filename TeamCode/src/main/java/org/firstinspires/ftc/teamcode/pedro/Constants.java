@@ -11,7 +11,8 @@ import com.pedropathing.revhub.localizers.PinpointConfig;
 import com.qualcomm.hardware.gobilda.GoBildaPinpointDriver;
 import com.pedropathing.algorithm.Foresight;
 import com.pedropathing.algorithm.ForesightConfig;
-
+//This file will be used for all Pedro and general constants. After tuning, we will merge Configurables to this file
+// everything not pedro should be public static final.
 public class Constants {
 
     public static PinpointConfig localizerConfig = new PinpointConfig(
@@ -61,4 +62,6 @@ public class Constants {
 
     public static final String  shooterName = "shooter";
     public static final String  turretName = "turret";
+
+    public static final String transferName = "transfer";
 }
