@@ -4,10 +4,23 @@ package org.firstinspires.ftc.teamcode;
 
 public class Trackables {
     // needs to be initialized in OpMode
-    public Side side = Side.RED;
+    public static Side side = Side.RED;
+    public static ShooterState state = ShooterState.DEFAULT;
+    public static RobotTaskState robotState = RobotTaskState.DEFAULT;
+
+
+
     public enum Side{
         RED,
         BLUE
+    }
+
+    public enum RobotTaskState{
+        DEFAULT,
+        SHOOT,
+        CLAW_UP,
+        PARK,
+        END
     }
 
     public enum ShooterState{
@@ -15,10 +28,8 @@ public class Trackables {
         REV_UP,
         SHOOT
     }
-    public ShooterState state = ShooterState.DEFAULT;
-
     public Trackables(Side startingSide){
-        this.side = startingSide;
+        Trackables.side = startingSide;
     }
 }
 
