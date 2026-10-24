@@ -41,7 +41,7 @@ public class CameraTest extends OpMode {
             AprilTagDetection tag = vision.getDetections(0).get(0);
             panelsTelemetry.addData("aprilTags", tag);
             telemetry.addData("Pose", tag.rawPose.x + ", " + tag.rawPose.y + ", " + tag.rawPose.z);
-            telemetry.addData("Pose", tag.rawPose.x + ", " + tag.rawPose.y + ", " + tag.rawPose.z);
+            panelsTelemetry.addData("Pose", tag.rawPose.x + ", " + tag.rawPose.y + ", " + tag.rawPose.z);
 
         } catch (Exception e){
             ;

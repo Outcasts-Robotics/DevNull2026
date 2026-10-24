@@ -54,6 +54,8 @@ public class Transfer {
                     time.reset();
                 }
                 break;
+            default:
+                break;
         }
     }
 }
