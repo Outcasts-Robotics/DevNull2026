@@ -12,7 +12,7 @@ import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import java.util.ArrayList;
 
 public class Shooter {
-    // TODO: Implement Shooter
+
     private final DcMotorEx shooterMotor;
     private final DcMotorEx turretMotor;
     private final ElapsedTime launcherTimer = new ElapsedTime();
