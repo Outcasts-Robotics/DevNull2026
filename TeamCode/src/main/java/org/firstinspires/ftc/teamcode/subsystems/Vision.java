@@ -3,16 +3,19 @@ package org.firstinspires.ftc.teamcode.subsystems;
 import android.util.Size;
 
 import com.bylazar.telemetry.TelemetryManager;
+import com.pedropathing.math.Pose;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.ExposureControl;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.GainControl;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
+import org.firstinspires.ftc.vision.apriltag.AprilTagPoseFtc;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 
 import java.util.ArrayList;
@@ -168,6 +171,17 @@ public class Vision {
 
     private GainControl getGainControl() {
         return visionPortal.getCameraControl(GainControl.class);
+    }
+
+    public static Pose convertFTCtoPedro(AprilTagPoseFtc ftcPose2d){
+        double x = ftcPose2d.x;
+        double y = ftcPose2d.y;
+        double heading = Math.toRadians(ftcPose2d.yaw);
+        return new Pose(
+                y + 72,
+                72 - x,
+                heading - Math.PI / 2
+        );
     }
 
 }

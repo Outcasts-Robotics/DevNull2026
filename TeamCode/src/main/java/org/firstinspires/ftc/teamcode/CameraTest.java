@@ -4,6 +4,7 @@ import com.bylazar.telemetry.PanelsTelemetry;
 import com.bylazar.telemetry.TelemetryManager;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.sun.tools.javac.code.TypeAnnotationPosition;
 
 import org.firstinspires.ftc.teamcode.subsystems.Drive;
 import org.firstinspires.ftc.teamcode.subsystems.Vision;
@@ -42,6 +43,11 @@ public class CameraTest extends OpMode {
             panelsTelemetry.addData("aprilTags", tag);
             telemetry.addData("Pose", tag.rawPose.x + ", " + tag.rawPose.y + ", " + tag.rawPose.z);
             panelsTelemetry.addData("Pose", tag.rawPose.x + ", " + tag.rawPose.y + ", " + tag.rawPose.z);
+
+            panelsTelemetry.addData("Pedro Pose", Vision.convertFTCtoPedro(tag.ftcPose));
+            telemetry.addData("Pedro Pose", Vision.convertFTCtoPedro(tag.ftcPose));
+            panelsTelemetry.addData("FTC Pose", tag.ftcPose);
+
 
         } catch (Exception e){
             ;
