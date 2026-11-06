@@ -46,7 +46,7 @@ public class CameraTest extends OpMode {
 
             panelsTelemetry.addData("Pedro Pose", Vision.convertFTCtoPedro(tag.ftcPose));
             telemetry.addData("Pedro Pose", Vision.convertFTCtoPedro(tag.ftcPose));
-            panelsTelemetry.addData("FTC Pose", tag.ftcPose);
+            panelsTelemetry.addData("Pose", tag.ftcPose.x + ", " + tag.ftcPose.y + ", " + tag.ftcPose.z);
 
 
         } catch (Exception e){
