@@ -15,6 +15,7 @@ apply plugin: 'com.android.application'
 // Include common definitions from above.
 apply from: '../build.common.gradle'
 apply from: '../build.dependencies.gradle'
+apply plugin: 'dev.frozenmilk.sinister.sloth.load'
 
 android {
     namespace = 'org.firstinspires.ftc.teamcode'
@@ -32,7 +33,12 @@ android {
         jniLibs.useLegacyPackaging true
     }
 }
-
+repositories {
+    // Dairy releases repository
+    maven {
+        url = "https://repo.dairy.foundation/releases"
+    }
+}
 dependencies {
     implementation project(':FtcRobotController')
     implementation 'com.bylazar:fullpanels:1.0.19'
