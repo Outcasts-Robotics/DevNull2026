@@ -1,53 +1,50 @@
-
-
 package org.firstinspires.ftc.teamcode.subsystems;
 
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+@TeleOp
+public class Drive extends LinearOpMode {
+    @Override
+    public void runOpMode() throws InterruptedException {
+        // Declare our motors
+        // Make sure your ID's match your configuration
+        DcMotor frontLeftMotor = hardwareMap.dcMotor.get("frontLeftMotor");
+        DcMotor backLeftMotor = hardwareMap.dcMotor.get("backLeftMotor");
+        DcMotor frontRightMotor = hardwareMap.dcMotor.get("frontRightMotor");
+        DcMotor backRightMotor = hardwareMap.dcMotor.get("backRightMotor");
 
-import java.util.function.DoubleSupplier;
+        // Reverse the right side motors. This may be wrong for your setup.
+        // If your robot moves backwards when commanded to go forwards,
+        // reverse the left side instead.
+        // See the note about this earlier on this page.
+        frontRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
-public class Drive {
-     DcMotor frontLeft;
-     DcMotor frontRight;
-     DcMotor backLeft;
-     DcMotor backRight;
-    private final DoubleSupplier yawInRadProvider;
+        waitForStart();
 
-    public Drive(HardwareMap hardwareMap, DoubleSupplier yawInRadProvider){
-        this.frontLeft = hardwareMap.get(DcMotor.class, "frontLeft");
-        this.frontRight = hardwareMap.get(DcMotor.class, "frontRight");
-        this.backLeft = hardwareMap.get(DcMotor.class, "backLeft");
-        this.backRight = hardwareMap.get(DcMotor.class, "backRight");
-        this.yawInRadProvider = yawInRadProvider;
+        if (isStopRequested()) return;
 
-        frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
-        frontRight.setDirection(DcMotorSimple.Direction.FORWARD);
-        backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
-        backRight.setDirection(DcMotorSimple.Direction.FORWARD);
+        while (opModeIsActive()) {
+            double y = -gamepad1.left_stick_y; // Remember, Y stick value is reversed
+            double x = gamepad1.left_stick_x * 1.1; // Counteract imperfect strafing
+            double rx = gamepad1.right_stick_x;
 
-        frontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        frontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        backLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        backRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-    }
+            // Denominator is the largest motor power (absolute value) or 1
+            // This ensures all the powers maintain the same ratio,
+            // but only if at least one is out of the range [-1, 1]
+            double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
+            double frontLeftPower = (y + x + rx) / denominator;
+            double backLeftPower = (y - x + rx) / denominator;
+            double frontRightPower = (y - x - rx) / denominator;
+            double backRightPower = (y + x - rx) / denominator;
 
-    public void control(double forward, double strafe, double rotate , boolean fieldCentric){
-        if(!fieldCentric){
-            frontLeft.setPower(forward + strafe + rotate);
-            frontRight.setPower(forward - strafe - rotate);
-            backLeft.setPower(forward - strafe + rotate);
-            backRight.setPower(forward + strafe - rotate);
-        } else {
-            double theta = Math.atan2(forward, strafe);
-            double r = Math.hypot(strafe, forward);
-            theta = AngleUnit.normalizeRadians(theta - yawInRadProvider.getAsDouble());
-            double newForward = r * Math.sin(theta);
-            double newRight = r * Math.cos(theta);
-            control(newForward, newRight, rotate, true);
+            frontLeftMotor.setPower(frontLeftPower);
+            backLeftMotor.setPower(backLeftPower);
+            frontRightMotor.setPower(frontRightPower);
+            backRightMotor.setPower(backRightPower);
         }
     }
 }
