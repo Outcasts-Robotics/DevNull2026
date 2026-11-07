@@ -28,16 +28,20 @@ public class TeleOp extends OpMode {
     Trackables trackables;
 
 
-    private Trackables.Side startingSide = Trackables.Side.BLUE;
     private RobotState currentRobotState = RobotState.UNKNOWN;
 
 
     @Override
     public void init() {
+        Trackables.side = Trackables.Side.BLUE;
+        Trackables.state = Trackables.ShooterState.DEFAULT;
+        Trackables.robotState = Trackables.RobotTaskState.DEFAULT;
+
         follower = Constants.create(hardwareMap);
-        trackables = new Trackables(startingSide);
-        launcher = new Shooter(hardwareMap, trackables);
+        trackables = new Trackables(Trackables.Side.BLUE);
+        launcher = new Shooter(hardwareMap);
         currentRobotState = RobotState.INIT;
+
 
 
     }
@@ -49,10 +53,8 @@ public class TeleOp extends OpMode {
 
 
         if (gamepad1.x) {
-            startingSide = Trackables.Side.BLUE;
             Trackables.side = Trackables.Side.BLUE;
         } else if (gamepad1.b) {
-            startingSide = Trackables.Side.RED;
             Trackables.side = Trackables.Side.RED;
         }
 

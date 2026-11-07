@@ -16,11 +16,10 @@ public class Shooter {
     private final DcMotorEx shooterMotor;
     private final DcMotorEx turretMotor;
     private final ElapsedTime launcherTimer = new ElapsedTime();
-    private final Trackables trackables;
     private static final double TARGET_VELOCITY = 2000;
     private static final double VELOCITY_TOLERANCE = 100;
 
-    public Shooter(HardwareMap hardwareMap, Trackables trackables) {
+    public Shooter(HardwareMap hardwareMap) {
         shooterMotor = hardwareMap.get(DcMotorEx.class, Constants.shooterName);
         turretMotor = hardwareMap.get(DcMotorEx.class, Constants.turretName);
 
@@ -29,8 +28,8 @@ public class Shooter {
         shooterMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         turretMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         turretMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        this.trackables = trackables;
+        turretMotor.setTargetPosition(0);
+        turretMotor.setPower(0.5);
     }
 
     public void updateLauncherState() {
@@ -50,10 +49,11 @@ public class Shooter {
                 break;
 
             case SHOOT:
-                shooterMotor.setVelocity(TARGET_VELOCITY);
 
+                shooterMotor.setVelocity(TARGET_VELOCITY);
                 if (launcherTimer.seconds() >= 1.0) {
                     Trackables.state = Trackables.ShooterState.DEFAULT;
+                    Trackables.robotState = Trackables.RobotTaskState.DEFAULT;
                 }
                 break;
 
@@ -71,14 +71,15 @@ public class Shooter {
     }
 
     public void setTurretAngle(double angle) {
-        turretMotor.setTargetPosition((int) (angle / Constants.TURRET_TICKS_PER_REV));
+        turretMotor.setTargetPosition((int) (angle * (Constants.TURRET_TICKS_PER_REV / 360.0)));
     }
 
     public void trackTag(Vision vision, double yawSpeed) {
         ArrayList<AprilTagDetection> detections = vision.getDetections(yawSpeed);
         if (!detections.isEmpty()) {
             AprilTagDetection detection = detections.get(0);
-            setTurretAngle(detection.ftcPose.yaw);
+            if (detection != null && detection.ftcPose != null) {
+              setTurretAngle(detection.ftcPose.yaw); }
         }
     }
 }
