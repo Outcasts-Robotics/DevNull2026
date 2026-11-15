@@ -9,8 +9,11 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.ExposureControl;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.GainControl;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
+import org.firstinspires.ftc.robotcore.external.navigation.Position;
+import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
@@ -29,9 +32,14 @@ public class Vision {
         telemetry.addLine("Initializing Vision...");
         telemetry.update();
 
+        Position position = new Position(DistanceUnit.INCH, 8 , 8 , 8, 0);
+        YawPitchRollAngles orientation = new YawPitchRollAngles(AngleUnit.RADIANS, 0 ,0, 45, 0);
+
+
         aprilTag = new AprilTagProcessor.Builder()
                 .setLensIntrinsics(906.25, 906.25, 636.238, 339.804)
                 .setDrawAxes(true)
+                .setCameraPose(position, orientation)
                 .setDrawTagOutline(true)
                 .build();
 
