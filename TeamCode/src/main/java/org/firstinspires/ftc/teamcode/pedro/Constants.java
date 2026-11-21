@@ -88,4 +88,6 @@ public class Constants {
     public static final String transferName = "transfer";
 
     public static final String intakeName = "intake";
+
+    public static final double SixkMotorTPS = 2800;
 }
