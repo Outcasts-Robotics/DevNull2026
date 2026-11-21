@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.bylazar.telemetry.PanelsTelemetry;
 import org.firstinspires.ftc.teamcode.pedro.Constants;
-
+@TeleOp
 public class SingleShooterTest extends LinearOpMode {
 
     @Override
@@ -30,11 +30,11 @@ public class SingleShooterTest extends LinearOpMode {
             testMotor.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER,new PIDFCoefficients(Configuration.SHOOTER_KP, Configuration.SHOOTER_KI , Configuration.SHOOTER_KD , Configuration.SHOOTER_KF));
             double tgtVel = 0;
             if (gamepad1.a) {
-                tgtVel = Constants.SixkMotorTPS * .4;
+                tgtVel = Constants.SixkMotorTPS * -Configuration.shooterTestCoeff;
             } else if (gamepad1.b) {
-                tgtVel = Constants.SixkMotorTPS * -.4;;
+                tgtVel = Constants.SixkMotorTPS * Configuration.shooterTestCoeff ;
             } else {
-                tgtVel = 0;
+                tgtVel = 20;
             }
 
             testMotor.setVelocity(tgtVel);
