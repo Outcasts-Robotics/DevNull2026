@@ -86,4 +86,6 @@ public class Constants {
     public static final String  turretName = "turret";
 
     public static final String transferName = "transfer";
+
+    public static final String intakeName = "intake";
 }
