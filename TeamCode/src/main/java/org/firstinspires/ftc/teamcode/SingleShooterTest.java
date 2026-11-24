@@ -27,7 +27,12 @@ public class SingleShooterTest extends LinearOpMode {
 
 
         while (opModeIsActive()) {
-            testMotor.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER,new PIDFCoefficients(Configuration.SHOOTER_KP, Configuration.SHOOTER_KI , Configuration.SHOOTER_KD , Configuration.SHOOTER_KF));
+            testMotor.setPIDFCoefficients(
+                    DcMotor.RunMode.RUN_USING_ENCODER,
+                    new PIDFCoefficients(Configuration.SHOOTER_KP,
+                            Configuration.SHOOTER_KI ,
+                            Configuration.SHOOTER_KD ,
+                            Configuration.SHOOTER_KF));
             double tgtVel = 0;
             if (gamepad1.a) {
                 tgtVel = Constants.SixkMotorTPS * -Configuration.shooterTestCoeff;

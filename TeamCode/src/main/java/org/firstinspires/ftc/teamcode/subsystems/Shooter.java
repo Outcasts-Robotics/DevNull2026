@@ -4,6 +4,9 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import org.firstinspires.ftc.teamcode.pedro.Constants;
+import com.qualcomm.robotcore.hardware.PIDFCoefficients;
+import org.firstinspires.ftc.teamcode.Configuration;
 
 import org.firstinspires.ftc.teamcode.Trackables;
 import org.firstinspires.ftc.teamcode.pedro.Constants;
@@ -25,10 +28,15 @@ public class Shooter {
 
         turretMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
+        shooterMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        shooterMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        shooterMotor.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, new PIDFCoefficients(Configuration.SHOOTER_KP, Configuration.SHOOTER_KI, Configuration.SHOOTER_KD, Configuration.SHOOTER_KF));
+
         shooterMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         turretMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        turretMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         turretMotor.setTargetPosition(0);
+        turretMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         turretMotor.setPower(0.5);
     }
 
@@ -36,7 +44,7 @@ public class Shooter {
         switch (Trackables.state) {
 
             case DEFAULT:
-                shooterMotor.setVelocity(0);
+                shooterMotor.setPower(0);
                 break;
 
             case REV_UP:
